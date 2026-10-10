@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>VIP Store</title>
+<style>
+/* ===== БАЗА (iOS 6) ===== */
+body{background:#1a1a1a;font-family:-apple-system,"Helvetica Neue",Helvetica,Arial,sans-serif;margin:0;padding:0;color:#fff;transition:background .3s,color .3s}
+.header{background:linear-gradient(#4a4a4a,#2a2a2a);padding:10px;text-align:center;border-bottom:1px solid #000;position:relative}
+.header h1{margin:0;font-size:20px;font-weight:bold;color:#fff;text-shadow:0 -1px 0 #000}
+.settings-btn{position:absolute;right:10px;top:10px;background:none;border:none;color:#fff;font-size:20px;cursor:pointer}
+.section-title{font-size:16px;font-weight:bold;color:#ffcc00;padding:15px 10px 5px 10px;text-shadow:0 -1px 0 #000}
+.app-list{padding:0 10px}
+.app-item{background:linear-gradient(#3a3a3a,#2a2a2a);border:1px solid #000;border-radius:10px;padding:12px;margin-bottom:12px;display:flex;align-items:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 2px 4px rgba(0,0,0,.5);cursor:pointer}
+.app-item:active{background:linear-gradient(#2a2a2a,#1a1a1a)}
+.app-icon-small{width:50px;height:50px;border-radius:10px;margin-right:12px;background:#555;border:1px solid #000;flex-shrink:0;box-shadow:0 2px 4px rgba(0,0,0,.4)}
+.app-name-small{font-size:16px;font-weight:bold;color:#fff;text-shadow:0 -1px 0 #000}
+.app-detail{display:none;padding:15px}
+.detail-header{display:flex;align-items:center;margin-bottom:15px}
+.detail-icon{width:80px;height:80px;border-radius:16px;margin-right:15px;background:#555;border:1px solid #000;box-shadow:0 2px 6px rgba(0,0,0,.5)}
+.detail-info{flex:1}
+.detail-name{font-size:22px;font-weight:bold;color:#fff;text-shadow:0 -1px 0 #000;margin-bottom:5px}
+.detail-desc{font-size:14px;color:#aaa;margin-bottom:10px}
+.detail-download{background:linear-gradient(#5ac8fa,#007aff);color:#fff;border:1px solid #003366;border-radius:18px;padding:12px 24px;font-size:16px;font-weight:bold;text-decoration:none;display:inline-block;text-shadow:0 -1px 0 rgba(0,0,0,.3);box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 2px 4px rgba(0,0,0,.4);margin-top:10px}
+.detail-download:active{background:linear-gradient(#007aff,#0055cc)}
+.back-btn{background:linear-gradient(#5ac8fa,#007aff);color:#fff;border:1px solid #003366;border-radius:12px;padding:8px 16px;font-size:14px;font-weight:bold;cursor:pointer;text-shadow:0 -1px 0 rgba(0,0,0,.3);box-shadow:inset 0 1px 0 rgba(255,255,255,.4);margin-bottom:15px}
+.back-btn:active{background:linear-gradient(#007aff,#0055cc)}
+.stars{display:flex;gap:4px;font-size:24px;margin-bottom:10px}
+.star{cursor:pointer;color:#555}
+.star.active{color:#ffcc00;text-shadow:0 0 6px #ffcc00}
+.reviews{margin-top:15px;border-top:1px solid #444;padding-top:10px}
+.review{font-size:13px;color:#ccc;margin-bottom:6px;padding:6px;background:rgba(0,0,0,.3);border-radius:6px}
+.review-input{width:100%;padding:8px;border-radius:6px;border:1px solid #555;background:#222;color:#fff;font-size:13px;margin-bottom:6px;box-sizing:border-box}
+.review-submit{background:linear-gradient(#5ac8fa,#007aff);color:#fff;border:1px solid #003366;border-radius:12px;padding:8px 16px;font-size:13px;font-weight:bold;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.4)}
+.recommended{padding:0 15px 15px 15px;border-top:1px solid #444;margin-top:20px}
+.recommended h2{font-size:18px;color:#ffcc00;text-shadow:0 -1px 0 #000;margin-bottom:10px}
+.recommended-item{display:flex;align-items:center;margin-bottom:10px;cursor:pointer}
+.recommended-icon{width:40px;height:40px;border-radius:8px;margin-right:10px;background:#555;border:1px solid #000}
+.recommended-name{font-size:14px;color:#fff}
+.footer{background:linear-gradient(#2a2a2a,#1a1a1a);padding:10px;text-align:center;font-size:11px;color:#666;border-top:1px solid #000;margin-top:20px}
+
+/* ===== СВЕТЛАЯ ТЕМА ===== */
+body.light{background:#f2f2f7;color:#000}
+body.light .header{background:linear-gradient(#e0e0e0,#c0c0c0)}
+body.light .header h1{color:#000;text-shadow:none}
+body.light .app-item{background:linear-gradient(#fff,#f0f0f0);border:1px solid #ccc}
+body.light .app-name-small,body.light .detail-name,body.light .recommended-name{color:#000;text-shadow:none}
+body.light .footer{background:linear-gradient(#e0e0e0,#c0c0c0);color:#333}
+body.light .settings-btn,body.light .section-title{color:#007aff;text-shadow:none}
+body.light .review{background:rgba(0,0,0,.1);color:#333}
+body.light .review-input{background:#fff;color:#000;border:1px solid #ccc}
+body.light .reviews,body.light .recommended{border-top:1px solid #ccc}
+
+/* ===== iOS 7 (как системное приложение) ===== */
+body.ios7{background:#f2f2f7;color:#000;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:300}
+body.ios7 .header{background:#f8f8f8;border-bottom:1px solid #c8c7cc;padding:12px}
+body.ios7 .header h1{color:#000;text-shadow:none;font-weight:300;font-size:18px}
+body.ios7 .settings-btn{color:#007aff;font-weight:300}
+body.ios7 .section-title{color:#007aff;text-shadow:none;font-weight:300;font-size:14px;text-transform:uppercase}
+body.ios7 .app-item{background:#fff;border:none;border-radius:0;box-shadow:none;border-bottom:1px solid #e5e5ea;padding:14px}
+body.ios7 .app-item:active{background:#e5e5ea}
+body.ios7 .app-name-small{color:#000;text-shadow:none;font-weight:300;font-size:17px}
+body.ios7 .app-icon-small{border-radius:22.5%;border:none;box-shadow:none}
+body.ios7 .detail-name{color:#000;text-shadow:none;font-weight:300}
+body.ios7 .detail-desc{color:#8e8e93;font-weight:300}
+body.ios7 .detail-download{background:#007aff;border:none;border-radius:8px;padding:12px 24px;font-weight:300;box-shadow:none}
+body.ios7 .back-btn{background:none;border:none;color:#007aff;box-shadow:none;font-weight:300;padding:8px 0;font-size:17px}
+body.ios7 .footer{background:#f8f8f8;color:#8e8e93;border-top:1px solid #c8c7cc;font-weight:300}
+body.ios7 .recommended h2{color:#007aff;text-shadow:none;font-weight:300}
+body.ios7 .recommended-name{color:#000;font-weight:300}
+body.ios7 .review{background:#f2f2f7;color:#000;font-weight:300}
+body.ios7 .review-input{background:#fff;color:#000;border:1px solid #c8c7cc;font-weight:300}
+body.ios7 .review-submit{background:#007aff;border:none;border-radius:8px;font-weight:300}
+body.ios7 .stars .star{color:#c8c7cc}
+body.ios7 .stars .star.active{color:#ff9500;text-shadow:none}
+
+/* ===== FRUTIGER AERO (прозрачность и глянец) ===== */
+body.aero{background:linear-gradient(135deg,#a8d8ea 0%,#c5e8d5 50%,#d4f0e0 100%);color:#003366;font-family:"Segoe UI",Tahoma,Geneva,Verdana,sans-serif}
+body.aero .header{background:rgba(255,255,255,.6);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.8);box-shadow:0 2px 8px rgba(0,51,102,.15)}
+body.aero .header h1{color:#003366;text-shadow:0 1px 0 rgba(255,255,255,.8)}
+body.aero .settings-btn{color:#003366}
+body.aero .section-title{color:#0066cc;text-shadow:0 1px 0 rgba(255,255,255,.8)}
+body.aero .app-item{background:rgba(255,255,255,.5);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.8);border-radius:14px;box-shadow:0 4px 12px rgba(0,51,102,.15),inset 0 1px 0 rgba(255,255,255,.9)}
+body.aero .app-item:active{background:rgba(255,255,255,.7)}
+body.aero .app-name-small{color:#003366;text-shadow:0 1px 0 rgba(255,255,255,.8)}
+body.aero .app-icon-small{border-radius:14px;border:2px solid rgba(255,255,255,.9);box-shadow:0 2px 6px rgba(0,51,102,.2)}
+body.aero .detail-name{color:#003366;text-shadow:0 1px 0 rgba(255,255,255,.8)}
+body.aero .detail-desc{color:#336699}
+body.aero .detail-download{background:linear-gradient(rgba(255,255,255,.6),rgba(200,230,255,.6));border:1px solid rgba(255,255,255,.9);color:#003366;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);box-shadow:0 2px 8px rgba(0,51,102,.2),inset 0 1px 0 rgba(255,255,255,.9)}
+body.aero .back-btn{background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.8);color:#003366;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);box-shadow:0 2px 6px rgba(0,51,102,.15)}
+body.aero .footer{background:rgba(255,255,255,.4);color:#336699;border-top:1px solid rgba(255,255,255,.8);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
+body.aero .recommended h2{color:#0066cc;text-shadow:0 1px 0 rgba(255,255,255,.8)}
+body.aero .recommended-name{color:#003366}
+body.aero .review{background:rgba(255,255,255,.6);color:#003366;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
+body.aero .review-input{background:rgba(255,255,255,.8);color:#003366;border:1px solid rgba(255,255,255,.9);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
+body.aero .review-submit{background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.9);color:#003366;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);box-shadow:0 2px 6px rgba(0,51,102,.15)}
+</style>
+</head>
+<body>
+
+<script>
+function openApp(id){document.getElementById('main-page').style.display='none';document.getElementById('detail-'+id).style.display='block'}
+function goBack(){var d=document.querySelectorAll('.app-detail');for(var i=0;i<d.length;i++)d[i].style.display='none';document.getElementById('main-page').style.display='block'}
+function openSettings(){document.getElementById('main-page').style.display='none';document.getElementById('settings-page').style.display='block'}
+function setTheme(t){document.body.className=t;localStorage.setItem('theme',t)}
+var s=localStorage.getItem('theme');if(s)setTheme(s);
+</script>
+
+<div id="main-page">
+<div class="header"><h1>VIP Store</h1><button class="settings-btn" onclick="openSettings()">⚙️</button></div>
+
+<div class="section-title">🔥 Топ игр</div>
+<div class="app-list">
+<div class="app-item" onclick="openApp('app3')"><img class="app-icon-small" src="https://trashbox.ru/ifiles2/171795_9d419a_1318857651_1318238751_pocket_edition_logo.png/obnovlenie-mcpe-0.8.0-ne-za-gorami-1.png"><div class="app-name-small">Minecraft PE Lite 0.2.1</div></div>
+<div class="app-item" onclick="openApp('app4')">
+    <img class="app-icon-small" src="https://avatars.mds.yandex.net/i?id=b64c0946d02d0d7ad9917de07d4cd861_l-5519086-images-thumbs&n=13">
+    <div class="app-name-small">Doodle Jump</div>
+</div>
+</div>
+
+<div class="section-title">⭐ Выбор редакции</div>
+<div class="app-list">
+<div class="app-item" onclick="openApp('app1')"><img class="app-icon-small" src="https://archive.org/download/angrybirds_202001/Angry%20Birds.png"><div class="app-name-small">Angry Birds</div></div>
+<div class="app-item" onclick="openApp('app3')"><img class="app-icon-small" src="https://trashbox.ru/ifiles2/171795_9d419a_1318857651_1318238751_pocket_edition_logo.png/obnovlenie-mcpe-0.8.0-ne-za-gorami-1.png"><div class="app-name-small">Minecraft PE Lite 0.2.1</div></div>
+</div>
+
+<div class="recommended">
+<h2>Рекомендуем</h2>
+<div class="recommended-item" onclick="openApp('app3')"><img class="recommended-icon" src="https://trashbox.ru/ifiles2/171795_9d419a_1318857651_1318238751_pocket_edition_logo.png/obnovlenie-mcpe-0.8.0-ne-za-gorami-1.png"><div class="recommended-name">Minecraft PE Lite 0.2.1</div></div>
+</div>
+
+<div class="footer">VIP Store для iOS 3+ • Все приложения с Archive.org</div>
+</div>
+
+<div id="settings-page" class="app-detail">
+<button class="back-btn" onclick="goBack()">← Назад</button>
+<h2>Настройки</h2>
+<div style="background:rgba(128,128,128,.2);padding:15px;border-radius:10px;margin-top:15px">
+<p style="margin-bottom:10px">Дизайн:</p>
+<button onclick="setTheme('')" style="padding:10px 20px;border-radius:8px;margin-right:10px;cursor:pointer">iOS 6</button>
+<button onclick="setTheme('ios7')" style="padding:10px 20px;border-radius:8px;margin-right:10px;cursor:pointer">iOS 7</button>
+<button onclick="setTheme('aero')" style="padding:10px 20px;border-radius:8px;cursor:pointer">Frutiger Aero</button>
+</div>
+<div style="background:rgba(128,128,128,.2);padding:15px;border-radius:10px;margin-top:15px">
+<p style="margin-bottom:10px">Тема:</p>
+<button onclick="setTheme('light')" style="padding:10px 20px;border-radius:8px;margin-right:10px;cursor:pointer">Светлая</button>
+<button onclick="setTheme('')" style="padding:10px 20px;border-radius:8px;cursor:pointer">Тёмная</button>
+</div>
+</div>
+<div id="detail-app3" class="app-detail">
+<button class="back-btn" onclick="goBack()">← Назад</button>
+<div class="detail-header"><img class="detail-icon" src="https://trashbox.ru/ifiles2/171795_9d419a_1318857651_1318238751_pocket_edition_logo.png/obnovlenie-mcpe-0.8.0-ne-za-gorami-1.png"><div class="detail-info"><div class="detail-name">Minecraft PE Lite 0.2.1</div><div class="detail-desc">Легендарная песочница для старых iOS</div></div></div>
+<div class="stars" data-app="app3"><span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span></div>
+<a href="https://archive.org/download/minecraft-pocket-edition-lite-0.2.1/Minecraft%20Pocket%20Edition%20Lite%200.2.1.ipa" class="detail-download">Скачать</a><div class="reviews" id="reviews-app3"><input type="text" class="review-input" placeholder="Напиши отзыв..." data-app="app3"><button class="review-submit" data-app="app3">Отправить</button></div>
+    <a href="https://archive.org/download/minecraft-pocket-edition-lite-0.2.1/Minecraft%20Pocket%20Edition%20Lite%200.2.1.ipa" class="detail-download">Скачать</a>
+    <div class="stars" data-app="app3">
+        <span class="star" data-value="1">★</span>
+        <span class="star" data-value="2">★</span>
+        <span class="star" data-value="3">★</span>
+        <span class="star" data-value="4">★</span>
+        <span class="star" data-value="5">★</span>
+    </div>
+    <div class="reviews" id="reviews-app3">
+        <input type="text" class="review-input" placeholder="Напиши отзыв..." data-app="app3">
+        <button class="review-submit" data-app="app3">Отправить</button>
+    </div>
+</div>
+</div>
+</div>
+<div id="detail-app4" class="app-detail">
+    <button class="back-btn" onclick="goBack()">← Назад</button>
+    <div class="detail-header">
+        <img class="detail-icon" src="https://avatars.mds.yandex.net/i?id=b64c0946d02d0d7ad9917de07d4cd861_l-5519086-images-thumbs&n=13">
+        <div class="detail-info">
+            <div class="detail-name">Doodle Jump</div>
+            <div class="detail-desc">Прыгай выше всех</div>
+        </div>
+    </div>
+    <div class="stars" data-app="app4">
+        <span class="star" data-value="1">★</span>
+        <span class="star" data-value="2">★</span>
+        <span class="star" data-value="3">★</span>
+        <span class="star" data-value="4">★</span>
+        <span class="star" data-value="5">★</span>
+    </div>
+    <a href="https://archive.org/download/doodle-jump-3.6.1-app-only/Doodle%20Jump%201.13.2.ipa" class="detail-download">Скачать</a>
+    <div class="reviews" id="reviews-app4">
+        <input type="text" class="review-input" placeholder="Напиши отзыв..." data-app="app4">
+        <button class="review-submit" data-app="app4">Отправить</button>
+    </div>
+</div>
+</div>
+
+<script>
+var sc=document.querySelectorAll('.stars');for(var i=0;i<sc.length;i++){(function(c){var a=c.getAttribute('data-app');var s=c.querySelectorAll('.star');for(var j=0;j<s.length;j++){(function(st){st.onclick=function(){var v=parseInt(st.getAttribute('data-value'),10);localStorage.setItem('rating_'+a,v);for(var k=0;k<s.length;k++){if(parseInt(s[k].getAttribute('data-value'),10)<=v)s[k].className='star active';else s[k].className='star'}};})(s[j]);}var sr=localStorage.getItem('rating_'+a);if(sr){for(var k=0;k<s.length;k++){if(parseInt(s[k].getAttribute('data-value'),10)<=parseInt(sr,10))s[k].className='star active';}}})(sc[i]);}
+var rb=document.querySelectorAll('.review-submit');for(var i=0;i<rb.length;i++){(function(b){b.onclick=function(){var a=b.getAttribute('data-app');var inp=document.querySelector('.review-input[data-app="'+a+'"]');var t=inp.value.replace(/^\s+|\s+$/g,'');if(t==='')return;var r=JSON.parse(localStorage.getItem('reviews_'+a)||'[]');r.push(t);localStorage.setItem('reviews_'+a,JSON.stringify(r));inp.value='';rr(a);};})(rb[i]);}
+function rr(a){var c=document.getElementById('reviews-'+a);if(!c)return;var o=c.querySelectorAll('.review');for(var i=0;i<o.length;i++)o[i].parentNode.removeChild(o[i]);var r=JSON.parse(localStorage.getItem('reviews_'+a)||'[]');for(var i=r.length-1;i>=0;i--){var e=document.createElement('div');e.className='review';e.textContent='💬 '+r[i];c.insertBefore(e,c.firstChild);}}
+var rc=document.querySelectorAll('.reviews');for(var i=0;i<rc.length;i++){var a=rc[i].id.replace('reviews-','');rr(a);}
+</script>
+
+</body>
+</html>
