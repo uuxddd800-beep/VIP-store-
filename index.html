@@ -207,6 +207,10 @@ function openSettings(){document.getElementById('main-page').style.display='none
 function setTheme(t){document.body.className=t;localStorage.setItem('theme',t)}
 var s=localStorage.getItem('theme');if(s)setTheme(s);
 
+function openHelp(){
+    document.getElementById('main-page').style.display='none';
+    document.getElementById('help-page').style.display='block';
+}
 // ===== ПОИСК =====
 function searchGames(){
     var q=document.getElementById('search').value.toLowerCase();
@@ -309,7 +313,7 @@ function renderReviews(a){
 </script>
 
 <div id="main-page">
-<div class="header"><h1>VIP Store</h1><button class="settings-btn" onclick="openSettings()">⚙️</button></div>
+<div class="header"><h1>VIP Store</h1><button class="settings-btn" onclick="openSettings()" style="right:50px">⚙️</button><button class="settings-btn" onclick="openHelp()">❓</button></div>
 <input type="text" id="search" class="search-box" placeholder="🔍 Поиск игр..." onkeyup="searchGames()">
 <div class="section-title">🔥 Топ игр</div>
 <div class="app-list" id="app-list"></div>
@@ -334,6 +338,39 @@ function renderReviews(a){
 </div>
 
 <div id="details-container"></div>
-
+<div id="help-page" class="app-detail">
+    <button class="back-btn" onclick="goBack()">← Назад</button>
+    <h2>Справка</h2>
+    
+    <div style="background:rgba(128,128,128,.2);padding:15px;border-radius:10px;margin-top:15px">
+        <h3>1. Как проверить свой iPhone</h3>
+        <p>Зайди в <b>Настройки → Основные → Об этом устройстве</b>. Там ты увидишь модель, версию iOS и серийный номер. Для проверки батареи — <b>Настройки → Аккумулятор → Состояние аккумулятора</b>.</p>
+    </div>
+    
+    <div style="background:rgba(128,128,128,.2);padding:15px;border-radius:10px;margin-top:15px">
+        <h3>2. Как скачивать приложения</h3>
+        <p><b>С джейлбрейком:</b> Установи твик <b>AppSync Unified</b> из Cydia. Скачай IPA-файл и установи через <b>iFile</b> или <b>Filza</b>.</p>
+        <p><b>Через 3uTools (без Apple ID):</b> Подключи iPhone к ПК, открой 3uTools, перейди в раздел «Приложения» и установи IPA-файл напрямую.</p>
+    </div>
+    
+    <div style="background:rgba(128,128,128,.2);padding:15px;border-radius:10px;margin-top:15px">
+        <h3>3. Как не попасться на обман</h3>
+        <p>Перед покупкой iPhone проверь его на сайте <b>iCloud.com/find</b> или через сервис <b>IMEI24</b>. Если телефон в блокировке активации — покупать нельзя, его нельзя будет использовать.</p>
+    </div>
+    
+    <div style="background:rgba(128,128,128,.2);padding:15px;border-radius:10px;margin-top:15px">
+        <h3>4. Как сбросить iPhone через ПК</h3>
+        <p>Подключи iPhone к ПК, открой <b>iTunes</b>. Нажми на иконку устройства, затем <b>«Восстановить iPhone»</b>. Все данные будут удалены, но телефон вернётся к заводскому состоянию.</p>
+</div>
+<div style="background:rgba(128,128,128,.2);padding:15px;border-radius:10px;margin-top:15px">
+    <h3>5. Как пользоваться сайтом</h3>
+    <p><b>Поиск:</b> Введи название игры в строке поиска сверху.</p>
+    <p><b>Скачивание:</b> Нажми на игру → кнопка «Скачать».</p>
+    <p><b>Оценка:</b> Нажми на звёзды под описанием.</p>
+    <p><b>Отзывы:</b> Внизу страницы игры есть поле для отзыва.</p>
+    <p><b>Дизайн:</b> В настройках (⚙️) выбери iOS 6, iOS 7 или Frutiger Aero.</p>
+</div>
+    </div>
+</div>
 </body>
 </html>
